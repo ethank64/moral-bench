@@ -1,0 +1,33 @@
+[project]
+name = "moral-bench"
+version = "0.1.0"
+description = "Which moral frameworks does a decision model align with? ETHICS on Jev-style models."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+dependencies = [
+    "httpx>=0.27",
+    "matplotlib>=3.9",
+    "numpy>=2.0",
+    "python-dotenv>=1.0",
+    "typer>=0.12",
+]
+
+[project.scripts]
+moral-bench = "moral_bench.cli:app"
+
+[dependency-groups]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/moral_bench"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
