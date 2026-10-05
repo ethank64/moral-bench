@@ -1,6 +1,10 @@
 # moral-bench
 
-Which moral frameworks does a decision model align with?
+[![CI](https://github.com/ethank64/moral-bench/actions/workflows/ci.yml/badge.svg)](https://github.com/ethank64/moral-bench/actions/workflows/ci.yml)
+
+Which moral frameworks does a decision model align with? Jev 1.13 agrees strongly with all five
+ETHICS framework sets; the smallest open clone, Kev-0.8B, is close to chance on three of them.
+The Jev run reproduces for a few cents.
 
 Decision models such as TypeSafe's Jev and the open-source [Kev](https://github.com/jaredpalmer/kev)
 answer a yes/no question about a piece of text with a single probability instead of generated
@@ -8,8 +12,6 @@ prose. moral-bench asks one of these models a yes/no question about each scenari
 [ETHICS](https://github.com/hendrycks/ethics) dataset and measures how well its probabilities
 match the human labels in each of the five framework sets: commonsense morality, deontology,
 justice, utilitarianism and virtue ethics.
-
-This is a v1 to validate the concept.
 
 ## Results
 
@@ -67,7 +69,8 @@ Metrics per framework:
 - A probability is the model's confidence, not a degree of rightness. 0.5 means unsure.
 - ETHICS has been public since 2020. Jev's training data is not disclosed, so it may have seen
   these items; its scores could overstate how it handles new scenarios.
-- The larger Kev models have not been run.
+- Kev-0.8B is the smallest of four Kev sizes, so this is not a verdict on open models. Kev-4B
+  did not fit in memory on a 24 GB Mac, and the 9B and 27B need a GPU; none has been run here.
 
 ## Run it
 
