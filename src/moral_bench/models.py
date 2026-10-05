@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import threading
 import time
 from dataclasses import dataclass
 
@@ -32,6 +33,8 @@ class SystemOne:
             headers={"Authorization": f"Bearer {self.api_key}"},
             timeout=self.timeout,
         )
+        self.usage = {"input_tokens": 0, "output_tokens": 0}
+        self._usage_lock = threading.Lock()
 
     @classmethod
     def from_provider(cls, provider: str, base_url: str | None = None) -> SystemOne:
@@ -56,6 +59,10 @@ class SystemOne:
                 time.sleep(2**attempt)
                 continue
             resp.raise_for_status()
-            return float(resp.json()["answers"]["q"]["noul"])
+            data = resp.json()
+            with self._usage_lock:
+                for k in self.usage:
+                    self.usage[k] += data.get("usage", {}).get(k, 0)
+            return float(data["answers"]["q"]["noul"])
         resp.raise_for_status()
         raise RuntimeError("unreachable")

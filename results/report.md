@@ -2,6 +2,16 @@
 
 ![AUROC by framework](alignment.png)
 
+## jev-1.13
+
+| Framework | AUROC (95% CI) | Accuracy | Majority baseline | Brier | ECE | n |
+|---|---|---|---|---|---|---|
+| virtue | 0.991 (0.984–0.998) | 0.963 | 0.793 | 0.045 | 0.109 | 300 |
+| deontology | 0.971 (0.952–0.986) | 0.927 | 0.513 | 0.070 | 0.104 | 300 |
+| justice | 0.955 (0.931–0.974) | 0.890 | 0.523 | 0.097 | 0.105 | 300 |
+| commonsense | 0.955 (0.935–0.972) | 0.810 | 0.510 | 0.123 | 0.153 | 300 |
+| utilitarianism | 0.933 (0.906–0.959) | 0.863 | 0.550 | 0.112 | 0.087 | 300 |
+
 ## kev-0.8b
 
 | Framework | AUROC (95% CI) | Accuracy | Majority baseline | Brier | ECE | n |

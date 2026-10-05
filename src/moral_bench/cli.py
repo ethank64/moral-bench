@@ -45,6 +45,7 @@ def run(
         cached = len(items) - runner.run(items, model, path, workers, on_done=lambda: bar.update(1))
         bar.update(cached)
     typer.echo(f"{len(items)} items ({cached} from cache) -> {path}")
+    typer.echo(f"tokens used: {model.usage}")
 
 
 @app.command()

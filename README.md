@@ -15,21 +15,27 @@ This is a v1 to validate the concept.
 
 ![AUROC by framework](results/alignment.png)
 
-Kev-0.8B, 300 random items per framework from the ETHICS `test` split, seed 0:
+300 random items per framework from the ETHICS `test` split, seed 0. Both models saw the same
+1,500 items. Cells are AUROC with a 95% confidence interval; 0.5 is chance.
 
-| Framework | AUROC (95% CI) | Accuracy | Majority baseline |
-|---|---|---|---|
-| virtue | 0.807 (0.742–0.867) | 0.793 | 0.793 |
-| justice | 0.685 (0.620–0.747) | 0.593 | 0.523 |
-| utilitarianism | 0.603 (0.536–0.667) | 0.590 | 0.550 |
-| deontology | 0.583 (0.518–0.645) | 0.537 | 0.513 |
-| commonsense | 0.571 (0.502–0.638) | 0.520 | 0.510 |
+| Framework | Jev 1.13 | Kev-0.8B |
+|---|---|---|
+| virtue | 0.991 (0.984–0.998) | 0.807 (0.742–0.867) |
+| deontology | 0.971 (0.952–0.986) | 0.583 (0.518–0.645) |
+| justice | 0.955 (0.931–0.974) | 0.685 (0.620–0.747) |
+| commonsense | 0.955 (0.935–0.972) | 0.571 (0.502–0.638) |
+| utilitarianism | 0.933 (0.906–0.959) | 0.603 (0.536–0.667) |
 
-Full table with calibration metrics: [results/report.md](results/report.md). Every prediction is
-in [results/predictions/](results/predictions/).
+Full table with accuracy and calibration metrics: [results/report.md](results/report.md). Every
+prediction is in [results/predictions/](results/predictions/).
 
-Kev-0.8B is the smallest model in the family, and it is barely above chance on three of the five
-sets. Read this table as proof that the pipeline works, not as a finding about moral frameworks.
+What this shows:
+
+- Jev agrees strongly with all five label sets. Virtue is highest and utilitarianism lowest, but
+  the confidence intervals of the middle three overlap, so only the ends of the ranking are firm.
+- Kev-0.8B, the smallest open model, is barely above chance on three of the five sets.
+- Jev's commonsense accuracy at a 0.5 threshold (0.810) lags its AUROC (0.955): it ranks wrong
+  acts above acceptable ones well, but its probabilities sit low, so it under-calls "wrong".
 
 ## How it works
 
@@ -59,7 +65,9 @@ Metrics per framework:
   that the model disagrees with that framework.
 - Results depend on the wording of the five questions. Only one wording has been tried.
 - A probability is the model's confidence, not a degree of rightness. 0.5 means unsure.
-- Only Kev-0.8B has been run. Jev and the larger Kev models are untested here.
+- ETHICS has been public since 2020. Jev's training data is not disclosed, so it may have seen
+  these items; its scores could overstate how it handles new scenarios.
+- The larger Kev models have not been run.
 
 ## Run it
 
@@ -75,7 +83,7 @@ uv run moral-bench report
 To run Jev, copy `.env.example` to `.env`, add a TypeSafe API key, then:
 
 ```bash
-uv run moral-bench run --provider jev --name jev --n 300
+uv run moral-bench run --provider jev --name jev-1.13 --n 300
 ```
 
 Predictions are cached in `results/predictions/<name>.jsonl`, so a rerun only calls the model
